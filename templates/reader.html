@@ -6,8 +6,18 @@
     <title>Gerüst Reader</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
   </head>
-  <body class="reader">
+  <body class="reader" data-theme="light">
     {{ content|safe }}
+    <template id="theme-switcher-template">
+      <div class="theme-switcher">
+        <label for="theme-select">Theme</label>
+        <select id="theme-select" name="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="examined">Examined</option>
+        </select>
+      </div>
+    </template>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>
