@@ -249,8 +249,6 @@ class GermanAnalyzer:
 
                     <div class="sidebar-label">Grammar:</div>
                     <div id="sb-grammar" class="sb-grammar"></div>
-
-                    <a id="btn-duden" href="#" target="_blank" class="btn">📖 Open in Duden</a>
                 </section>
                 <section id="view-settings-container" class="sidebar-section placeholder-section"></section>
                 <section id="theme-switcher-container" class="sidebar-section placeholder-section"></section>
