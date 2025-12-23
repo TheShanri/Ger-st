@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingOverlay = document.getElementById('loading-overlay');
   const statusText = document.getElementById('status-text');
   const progressFill = document.getElementById('progress-fill');
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const uploadPanel = document.getElementById('upload-panel');
+  const textPanel = document.getElementById('text-panel');
+  const textInput = document.getElementById('text-input');
 
   const funStatuses = [
     'Loading the German brain...',
@@ -17,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   let statusInterval;
+  let currentMode = 'upload';
 
   const startLoadingFeedback = () => {
     if (!loadingOverlay) return;
@@ -50,25 +55,65 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const setMode = (mode) => {
+    currentMode = mode;
+
+    tabButtons.forEach((button) => {
+      const isActive = button.dataset.mode === mode;
+      button.classList.toggle('active', isActive);
+      button.setAttribute('aria-selected', String(isActive));
+    });
+
+    if (uploadPanel) uploadPanel.hidden = mode !== 'upload';
+    if (textPanel) textPanel.hidden = mode !== 'paste';
+
+    if (fileInput) {
+      fileInput.required = mode === 'upload';
+      fileInput.disabled = mode !== 'upload';
+    }
+
+    if (textInput) {
+      textInput.required = mode === 'paste';
+      textInput.disabled = mode !== 'paste';
+    }
+  };
+
+  if (tabButtons.length) {
+    tabButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const nextMode = button.dataset.mode || 'upload';
+        setMode(nextMode);
+      });
+    });
+  }
+
+  setMode('upload');
+
   if (dropZone && fileInput && uploadForm) {
     const setHelper = (message) => {
       if (helperText) helperText.innerText = message;
     };
 
-    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('click', () => {
+      if (currentMode !== 'upload') return;
+      fileInput.click();
+    });
 
     dropZone.addEventListener('dragover', (event) => {
+      if (currentMode !== 'upload') return;
       event.preventDefault();
       dropZone.classList.add('dragover');
       setHelper('Drop your PDF to start analyzing');
     });
 
     dropZone.addEventListener('dragleave', () => {
+      if (currentMode !== 'upload') return;
       dropZone.classList.remove('dragover');
       setHelper('Drag & drop a PDF or click to browse');
     });
 
     dropZone.addEventListener('drop', (event) => {
+      if (currentMode !== 'upload') return;
       event.preventDefault();
       dropZone.classList.remove('dragover');
       if (event.dataTransfer?.files?.length) {

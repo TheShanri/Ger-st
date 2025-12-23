@@ -16,9 +16,14 @@ def upload_form():
 
 @app.post("/analyze")
 def analyze_pdf():
+    text_input = request.form.get("text_input")
+    if text_input is not None:
+        html_content = analyzer.analyze_to_html(text_input)
+        return render_template("reader.html", content=html_content)
+
     uploaded_file = request.files.get("file")
     if not uploaded_file:
-        return "No file uploaded", 400
+        return "No text provided or file uploaded", 400
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_pdf:
         uploaded_file.save(temp_pdf.name)
