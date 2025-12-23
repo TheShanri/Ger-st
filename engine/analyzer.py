@@ -174,30 +174,55 @@ class GermanAnalyzer:
             if raw_gen:
                 full_gen = self.GENDER_MAP.get(raw_gen[0], raw_gen[0])
                 grammar_lines.append(f"<strong>Gender:</strong> {full_gen}")
-                
+
             # 3. Case
             raw_case = token.morph.get("Case")
             if raw_case:
                 full_case = self.CASE_MAP.get(raw_case[0], raw_case[0])
                 grammar_lines.append(f"<strong>Case:</strong> {full_case}")
 
-            # 4. Tense (Verbs)
+            # 4. Number
+            raw_num = token.morph.get("Number")
+
+            # 5. Tense (Verbs)
             if token.pos_ in ["VERB", "AUX"]:
                 raw_tense = token.morph.get("Tense")
                 if raw_tense:
                     full_tense = self.TENSE_MAP.get(raw_tense[0], raw_tense[0])
                     grammar_lines.append(f"<strong>Tense:</strong> {full_tense}")
-            
+
+            # 6. Mood (Verbs)
+            raw_mood = token.morph.get("Mood")
+
             grammar_html = "<br>".join(grammar_lines)
 
             # --- CSS CLASSES ---
             classes = ["token"]
-            if raw_gen: 
+            if raw_gen:
                 classes.append(f"gender-{raw_gen[0]}")
-            
+
             if token.pos_ in ["VERB", "AUX"]:
                 if token.morph.get("VerbForm") == ["Fin"]: classes.append("verb-finite")
                 else: classes.append("verb-end")
+
+            if raw_case:
+                if raw_case[0] == "Nom":
+                    classes.append("case-Nom")
+                elif raw_case[0] == "Acc":
+                    classes.append("case-Acc")
+                elif raw_case[0] == "Dat":
+                    classes.append("case-Dat")
+                elif raw_case[0] == "Gen":
+                    classes.append("case-Gen")
+
+            if raw_num == ["Plur"]:
+                classes.append("num-Plur")
+
+            if token.pos_ in ["VERB", "AUX"] and raw_mood == ["Sub"]:
+                classes.append("mood-Subj")
+
+            if token.ent_type_:
+                classes.append("ent-Name")
 
             class_str = " ".join(classes)
             
@@ -212,6 +237,7 @@ class GermanAnalyzer:
         html_content += """
             </div>
             <div class="sidebar">
+                <div id="view-settings-container"></div>
                 <div id="sb-word" class="sb-word">Welcome</div>
                 <div id="sb-lemma" class="sb-lemma">Click a word</div>
 

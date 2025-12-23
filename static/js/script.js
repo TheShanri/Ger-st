@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const textInput = document.getElementById('text-input');
   const sidebar = document.querySelector('.sidebar');
   const themeTemplate = document.getElementById('theme-switcher-template');
+  const viewSettingsTemplate = document.getElementById('view-settings-template');
 
   const funStatuses = [
     'Loading the German brain...',
@@ -138,6 +139,14 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme || document.body.getAttribute('data-theme'));
   };
 
+  const mountViewSettings = () => {
+    const viewSettingsContainer = document.getElementById('view-settings-container');
+    if (viewSettingsContainer && viewSettingsTemplate) {
+      const clone = viewSettingsTemplate.content.cloneNode(true);
+      viewSettingsContainer.replaceWith(clone);
+    }
+  };
+
   if (dropZone && fileInput && uploadForm) {
     const setHelper = (message) => {
       if (helperText) helperText.innerText = message;
@@ -186,7 +195,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  const setupHighlightToggles = () => {
+    const toggles = [
+      { id: 'toggle-nom', className: 'show-nom' },
+      { id: 'toggle-acc', className: 'show-acc' },
+      { id: 'toggle-dat', className: 'show-dat' },
+      { id: 'toggle-gen', className: 'show-gen' },
+      { id: 'toggle-plur', className: 'show-plur' },
+      { id: 'toggle-subj', className: 'show-subj' },
+      { id: 'toggle-ent', className: 'show-ent' },
+    ];
+
+    toggles.forEach(({ id, className }) => {
+      const checkbox = document.getElementById(id);
+      if (!checkbox) return;
+
+      const updateClass = () => {
+        document.body.classList.toggle(className, checkbox.checked);
+      };
+
+      checkbox.addEventListener('change', updateClass);
+      updateClass();
+    });
+  };
+
   setupThemeSwitcher();
+  mountViewSettings();
+  setupHighlightToggles();
 });
 
 function updateSidebar(element) {
