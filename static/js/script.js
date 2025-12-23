@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const uploadPanel = document.getElementById('upload-panel');
   const textPanel = document.getElementById('text-panel');
   const textInput = document.getElementById('text-input');
+  const sidebar = document.querySelector('.sidebar');
+  const themeTemplate = document.getElementById('theme-switcher-template');
 
   const funStatuses = [
     'Loading the German brain...',
@@ -22,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let statusInterval;
   let currentMode = 'upload';
+  let themeSelect;
+  let allowThemeStorage = true;
 
   const startLoadingFeedback = () => {
     if (!loadingOverlay) return;
@@ -89,6 +93,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setMode('upload');
 
+  const applyTheme = (theme) => {
+    const nextTheme = theme || 'light';
+    document.body.setAttribute('data-theme', nextTheme);
+
+    if (themeSelect && themeSelect.value !== nextTheme) {
+      themeSelect.value = nextTheme;
+    }
+
+    if (allowThemeStorage) {
+      try {
+        localStorage.setItem('gerust-theme', nextTheme);
+      } catch (error) {
+        allowThemeStorage = false;
+        console.warn('Unable to persist theme preference', error);
+      }
+    }
+  };
+
+  const setupThemeSwitcher = () => {
+    if (sidebar && themeTemplate) {
+      const clone = themeTemplate.content.cloneNode(true);
+      sidebar.prepend(clone);
+      themeSelect = sidebar.querySelector('#theme-select');
+
+      if (themeSelect) {
+        themeSelect.addEventListener('change', (event) => {
+          applyTheme(event.target.value);
+        });
+      }
+    }
+
+    let savedTheme = null;
+
+    if (allowThemeStorage) {
+      try {
+        savedTheme = localStorage.getItem('gerust-theme');
+      } catch (error) {
+        allowThemeStorage = false;
+        console.warn('Unable to read saved theme', error);
+      }
+    }
+
+    applyTheme(savedTheme || document.body.getAttribute('data-theme'));
+  };
+
   if (dropZone && fileInput && uploadForm) {
     const setHelper = (message) => {
       if (helperText) helperText.innerText = message;
@@ -136,6 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
       startLoadingFeedback();
     });
   }
+
+  setupThemeSwitcher();
 });
 
 function updateSidebar(element) {
