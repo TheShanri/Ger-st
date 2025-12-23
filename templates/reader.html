@@ -18,6 +18,20 @@
         </select>
       </div>
     </template>
+    <template id="view-settings-template">
+      <div class="view-settings">
+        <h3>View Settings</h3>
+        <div class="toggle-group">
+          <label><input type="checkbox" id="toggle-nom" /> Nominative</label>
+          <label><input type="checkbox" id="toggle-acc" /> Accusative</label>
+          <label><input type="checkbox" id="toggle-dat" /> Dative</label>
+          <label><input type="checkbox" id="toggle-gen" /> Genitive</label>
+          <label><input type="checkbox" id="toggle-plur" /> Plurals</label>
+          <label><input type="checkbox" id="toggle-subj" /> Subjunctive Mood</label>
+          <label><input type="checkbox" id="toggle-ent" /> Named Entities</label>
+        </div>
+      </div>
+    </template>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>
