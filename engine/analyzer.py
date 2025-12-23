@@ -197,13 +197,15 @@ class GermanAnalyzer:
             grammar_html = "<br>".join(grammar_lines)
 
             # --- CSS CLASSES ---
-            classes = ["token"]
+            classes = ["token", f"pos-{token.pos_}"]
             if raw_gen:
                 classes.append(f"gender-{raw_gen[0]}")
 
             if token.pos_ in ["VERB", "AUX"]:
-                if token.morph.get("VerbForm") == ["Fin"]: classes.append("verb-finite")
-                else: classes.append("verb-end")
+                if token.morph.get("VerbForm") == ["Fin"]:
+                    classes.append("verb-finite")
+                else:
+                    classes.append("verb-end")
 
             if raw_case:
                 if raw_case[0] == "Nom":
@@ -237,17 +239,21 @@ class GermanAnalyzer:
         html_content += """
             </div>
             <div class="sidebar">
-                <div id="view-settings-container"></div>
-                <div id="sb-word" class="sb-word">Welcome</div>
-                <div id="sb-lemma" class="sb-lemma">Click a word</div>
+                <section class="sidebar-section word-info">
+                    <div class="section-header">Word Info</div>
+                    <div id="sb-word" class="sb-word">Welcome</div>
+                    <div id="sb-lemma" class="sb-lemma">Click a word</div>
 
-                <div class="sidebar-label">English Meaning:</div>
-                <div id="sb-meaning" class="sb-meaning">...</div>
+                    <div class="sidebar-label">English Meaning:</div>
+                    <div id="sb-meaning" class="sb-meaning">...</div>
 
-                <div class="sidebar-label">Grammar:</div>
-                <div id="sb-grammar" class="sb-grammar"></div>
+                    <div class="sidebar-label">Grammar:</div>
+                    <div id="sb-grammar" class="sb-grammar"></div>
 
-                <a id="btn-duden" href="#" target="_blank" class="btn">📖 Open in Duden</a>
+                    <a id="btn-duden" href="#" target="_blank" class="btn">📖 Open in Duden</a>
+                </section>
+                <section id="view-settings-container" class="sidebar-section placeholder-section"></section>
+                <section id="theme-switcher-container" class="sidebar-section placeholder-section"></section>
             </div>
         </div>
         """

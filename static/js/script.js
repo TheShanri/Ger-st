@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const uploadPanel = document.getElementById('upload-panel');
   const textPanel = document.getElementById('text-panel');
   const textInput = document.getElementById('text-input');
-  const sidebar = document.querySelector('.sidebar');
   const themeTemplate = document.getElementById('theme-switcher-template');
   const viewSettingsTemplate = document.getElementById('view-settings-template');
 
@@ -113,10 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const setupThemeSwitcher = () => {
-    if (sidebar && themeTemplate) {
+    const themeContainer = document.getElementById('theme-switcher-container');
+    if (themeContainer && themeTemplate) {
       const clone = themeTemplate.content.cloneNode(true);
-      sidebar.prepend(clone);
-      themeSelect = sidebar.querySelector('#theme-select');
+      themeContainer.replaceWith(clone);
+      themeSelect = document.getElementById('theme-select');
 
       if (themeSelect) {
         themeSelect.addEventListener('change', (event) => {
@@ -197,13 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const setupHighlightToggles = () => {
     const toggles = [
+      { id: 'toggle-masc', className: 'show-masc' },
+      { id: 'toggle-fem', className: 'show-fem' },
+      { id: 'toggle-neut', className: 'show-neut' },
+      { id: 'toggle-verbs', className: 'show-verbs' },
       { id: 'toggle-nom', className: 'show-nom' },
       { id: 'toggle-acc', className: 'show-acc' },
       { id: 'toggle-dat', className: 'show-dat' },
       { id: 'toggle-gen', className: 'show-gen' },
+      { id: 'toggle-adj', className: 'show-adj' },
       { id: 'toggle-plur', className: 'show-plur' },
-      { id: 'toggle-subj', className: 'show-subj' },
-      { id: 'toggle-ent', className: 'show-ent' },
     ];
 
     toggles.forEach(({ id, className }) => {

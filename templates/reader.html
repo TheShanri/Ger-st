@@ -9,28 +9,84 @@
   <body class="reader" data-theme="light">
     {{ content|safe }}
     <template id="theme-switcher-template">
-      <div class="theme-switcher">
-        <label for="theme-select">Theme</label>
+      <section class="sidebar-section theme-switcher">
+        <div class="section-header">Themes</div>
+        <label class="theme-label" for="theme-select">Choose Theme</label>
         <select id="theme-select" name="theme">
           <option value="light">Light</option>
           <option value="dark">Dark</option>
           <option value="examined">Examined</option>
         </select>
-      </div>
+      </section>
     </template>
     <template id="view-settings-template">
-      <div class="view-settings">
-        <h3>View Settings</h3>
-        <div class="toggle-group">
-          <label><input type="checkbox" id="toggle-nom" /> Nominative</label>
-          <label><input type="checkbox" id="toggle-acc" /> Accusative</label>
-          <label><input type="checkbox" id="toggle-dat" /> Dative</label>
-          <label><input type="checkbox" id="toggle-gen" /> Genitive</label>
-          <label><input type="checkbox" id="toggle-plur" /> Plurals</label>
-          <label><input type="checkbox" id="toggle-subj" /> Subjunctive Mood</label>
-          <label><input type="checkbox" id="toggle-ent" /> Named Entities</label>
+      <section class="sidebar-section view-settings">
+        <div class="section-header">View Settings</div>
+
+        <div class="toggle-section">
+          <p class="toggle-title">Genders</p>
+          <div class="toggle-group">
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-masc" />
+              <label for="toggle-masc">Masculine</label>
+            </div>
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-fem" />
+              <label for="toggle-fem">Feminine</label>
+            </div>
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-neut" />
+              <label for="toggle-neut">Neuter</label>
+            </div>
+          </div>
         </div>
-      </div>
+
+        <div class="toggle-section">
+          <p class="toggle-title">Verbs</p>
+          <div class="toggle-group">
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-verbs" />
+              <label for="toggle-verbs">Verbs (Finite &amp; End)</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-section">
+          <p class="toggle-title">Cases</p>
+          <div class="toggle-group">
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-nom" />
+              <label for="toggle-nom">Nominative</label>
+            </div>
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-acc" />
+              <label for="toggle-acc">Accusative</label>
+            </div>
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-dat" />
+              <label for="toggle-dat">Dative</label>
+            </div>
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-gen" />
+              <label for="toggle-gen">Genitive</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggle-section">
+          <p class="toggle-title">Other</p>
+          <div class="toggle-group">
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-adj" />
+              <label for="toggle-adj">Adjectives</label>
+            </div>
+            <div class="toggle-pill">
+              <input type="checkbox" id="toggle-plur" />
+              <label for="toggle-plur">Plurals</label>
+            </div>
+          </div>
+        </div>
+      </section>
     </template>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
