@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerüst</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  </head>
+  <body class="landing">
+    <main class="hero">
+      <header>
+        <h1>Gerüst</h1>
+        <p>Analyze German texts, uncover grammar, and get instant translations. Drop a PDF to begin.</p>
+      </header>
+      <section class="upload-card">
+        <form id="upload-form" action="/analyze" method="post" enctype="multipart/form-data">
+          <div id="drop-zone" class="drop-zone">
+            <strong>Drag &amp; drop your PDF</strong>
+            <small id="file-helper">Drag &amp; drop a PDF or click to browse</small>
+            <input id="file-input" type="file" name="file" accept="application/pdf" required hidden />
+            <button type="button" class="primary-button">Choose File</button>
+          </div>
+        </form>
+      </section>
+    </main>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 import os
 import tempfile
 
-from flask import Flask, request
+from flask import Flask, render_template, request
 
 from engine.analyzer import GermanAnalyzer
 
@@ -10,15 +10,7 @@ app = Flask(__name__)
 
 @app.get("/")
 def upload_form():
-    return (
-        "<html><body>"
-        "<h1>Upload PDF for Analysis</h1>"
-        "<form action=\"/analyze\" method=\"post\" enctype=\"multipart/form-data\">"
-        "<input type=\"file\" name=\"file\" accept=\"application/pdf\" required />"
-        "<button type=\"submit\">Analyze</button>"
-        "</form>"
-        "</body></html>"
-    )
+    return render_template("index.html")
 
 
 @app.post("/analyze")
@@ -37,7 +29,7 @@ def analyze_pdf():
 
     os.remove(temp_path)
 
-    return html_content
+    return render_template("reader.html", content=html_content)
 
 
 if __name__ == "__main__":
