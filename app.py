@@ -6,6 +6,7 @@ from flask import Flask, render_template, request
 from engine.analyzer import GermanAnalyzer
 
 app = Flask(__name__)
+analyzer = GermanAnalyzer()
 
 
 @app.get("/")
@@ -23,7 +24,6 @@ def analyze_pdf():
         uploaded_file.save(temp_pdf.name)
         temp_path = temp_pdf.name
 
-    analyzer = GermanAnalyzer()
     text = analyzer.extract_text_from_pdf(temp_path, 1, 10)
     html_content = analyzer.analyze_to_html(text)
 

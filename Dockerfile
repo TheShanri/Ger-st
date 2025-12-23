@@ -6,7 +6,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Download German language model for spaCy
-RUN python -m spacy download de_core_news_lg
+RUN python -m spacy download de_core_news_md
 
 COPY . .
 

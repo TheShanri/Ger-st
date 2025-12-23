@@ -23,7 +23,7 @@ class GermanAnalyzer:
     GENDER_MAP = {"Masc": "Masculine", "Fem": "Feminine", "Neut": "Neuter"}
     TENSE_MAP = {"Pres": "Present", "Past": "Past", "Fut": "Future"}
 
-    def __init__(self, model_name="de_core_news_lg", cache_file="german_vocab.json"):
+    def __init__(self, model_name="de_core_news_md", cache_file="german_vocab.json"):
         print(f"Initializing Gerüst Engine with model: {model_name}...")
         try:
             self.nlp = spacy.load(model_name)
