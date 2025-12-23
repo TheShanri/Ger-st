@@ -1,0 +1,44 @@
+import os
+import tempfile
+
+from flask import Flask, request
+
+from engine.analyzer import GermanAnalyzer
+
+app = Flask(__name__)
+
+
+@app.get("/")
+def upload_form():
+    return (
+        "<html><body>"
+        "<h1>Upload PDF for Analysis</h1>"
+        "<form action=\"/analyze\" method=\"post\" enctype=\"multipart/form-data\">"
+        "<input type=\"file\" name=\"file\" accept=\"application/pdf\" required />"
+        "<button type=\"submit\">Analyze</button>"
+        "</form>"
+        "</body></html>"
+    )
+
+
+@app.post("/analyze")
+def analyze_pdf():
+    uploaded_file = request.files.get("file")
+    if not uploaded_file:
+        return "No file uploaded", 400
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_pdf:
+        uploaded_file.save(temp_pdf.name)
+        temp_path = temp_pdf.name
+
+    analyzer = GermanAnalyzer()
+    text = analyzer.extract_text_from_pdf(temp_path, 1, 10)
+    html_content = analyzer.analyze_to_html(text)
+
+    os.remove(temp_path)
+
+    return html_content
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
