@@ -498,9 +498,7 @@ body.reader {
 
 .show-plur .num-Plur {
   letter-spacing: 1px;
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 0 2px;
+  text-decoration: underline double;
   background: rgba(153, 153, 153, 0.12);
 }
 
@@ -550,22 +548,6 @@ body.reader {
   border: 1px solid var(--border-color);
   line-height: 1.6;
   font-size: 0.95em;
-}
-
-.btn {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 12px 14px;
-  background: var(--btn-bg-color);
-  text-align: center;
-  text-decoration: none;
-  color: var(--btn-text-color);
-  border-radius: 6px;
-  font-size: 0.95em;
-}
-
-.btn:hover {
-  background: var(--btn-hover-bg-color);
 }
 
 .view-settings {
