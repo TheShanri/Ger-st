@@ -13,12 +13,29 @@
         <p>Analyze German texts, uncover grammar, and get instant translations. Drop a PDF to begin.</p>
       </header>
       <section class="upload-card">
+        <div class="tab-list" role="tablist" aria-label="Input method">
+          <button type="button" class="tab-button active" data-mode="upload" role="tab" aria-selected="true">
+            Upload PDF
+          </button>
+          <button type="button" class="tab-button" data-mode="paste" role="tab" aria-selected="false">
+            Paste Text
+          </button>
+        </div>
         <form id="upload-form" action="/analyze" method="post" enctype="multipart/form-data">
-          <div id="drop-zone" class="drop-zone">
-            <strong>Drag &amp; drop your PDF</strong>
-            <small id="file-helper">Drag &amp; drop a PDF or click to browse</small>
-            <input id="file-input" type="file" name="file" accept="application/pdf" required hidden />
-            <button type="button" class="primary-button">Choose File</button>
+          <div id="upload-panel">
+            <div id="drop-zone" class="drop-zone">
+              <strong>Drag &amp; drop your PDF</strong>
+              <small id="file-helper">Drag &amp; drop a PDF or click to browse</small>
+              <input id="file-input" type="file" name="file" accept="application/pdf" hidden />
+              <button type="button" class="primary-button">Choose File</button>
+            </div>
+          </div>
+          <div id="text-panel" hidden>
+            <label for="text-input"><strong>Paste your German text</strong></label>
+            <textarea id="text-input" name="text_input" rows="8" placeholder="Fügen Sie hier Ihren Text ein..."></textarea>
+            <div class="actions">
+              <button type="submit" class="primary-button">Analyze Text</button>
+            </div>
           </div>
         </form>
       </section>

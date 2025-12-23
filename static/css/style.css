@@ -65,6 +65,29 @@ body.landing {
   border-color: #999;
 }
 
+.tab-list {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #d0d0d0;
+  background: #fff;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.tab-button.active {
+  background: #111;
+  color: #fff;
+  border-color: #111;
+}
+
 .drop-zone {
   display: flex;
   flex-direction: column;
@@ -104,6 +127,22 @@ body.landing {
 
 .primary-button:hover {
   background: #222;
+}
+
+.actions {
+  margin-top: 16px;
+  text-align: right;
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 16px;
+  resize: vertical;
+  min-height: 200px;
 }
 
 #loading-overlay {
