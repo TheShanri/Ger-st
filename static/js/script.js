@@ -3,6 +3,52 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('file-input');
   const uploadForm = document.getElementById('upload-form');
   const helperText = document.getElementById('file-helper');
+  const loadingOverlay = document.getElementById('loading-overlay');
+  const statusText = document.getElementById('status-text');
+  const progressFill = document.getElementById('progress-fill');
+
+  const funStatuses = [
+    'Loading the German brain...',
+    'Untangling the sentence bracket...',
+    'Searching for the verb at the end...',
+    'Consulting Kafka...',
+    'Polishing the Umlauts...',
+    'Calculating declensions...',
+  ];
+
+  let statusInterval;
+
+  const startLoadingFeedback = () => {
+    if (!loadingOverlay) return;
+
+    loadingOverlay.classList.add('visible');
+
+    if (statusInterval) {
+      clearInterval(statusInterval);
+    }
+
+    if (statusText) {
+      let statusIndex = 0;
+      statusText.innerText = funStatuses[statusIndex];
+      statusInterval = setInterval(() => {
+        statusIndex = (statusIndex + 1) % funStatuses.length;
+        statusText.innerText = funStatuses[statusIndex];
+      }, 1500);
+    }
+
+    if (progressFill) {
+      progressFill.style.transition = 'none';
+      progressFill.style.width = '0%';
+      requestAnimationFrame(() => {
+        progressFill.style.transition = 'width 15s linear';
+        progressFill.style.width = '90%';
+        const wrapper = progressFill.parentElement;
+        if (wrapper?.setAttribute) {
+          wrapper.setAttribute('aria-valuenow', '90');
+        }
+      });
+    }
+  };
 
   if (dropZone && fileInput && uploadForm) {
     const setHelper = (message) => {
@@ -28,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (event.dataTransfer?.files?.length) {
         fileInput.files = event.dataTransfer.files;
         setHelper(event.dataTransfer.files[0].name);
+        startLoadingFeedback();
         uploadForm.submit();
       }
     });
@@ -35,8 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
     fileInput.addEventListener('change', () => {
       if (fileInput.files?.length) {
         setHelper(fileInput.files[0].name);
+        startLoadingFeedback();
         uploadForm.submit();
       }
+    });
+
+    uploadForm.addEventListener('submit', () => {
+      startLoadingFeedback();
     });
   }
 });
