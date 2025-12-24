@@ -550,6 +550,15 @@ body.reader {
   font-size: 0.95em;
 }
 
+.sb-reason {
+  margin-top: 12px;
+  background: #fff3e0;
+  border-left: 5px solid #ffb74d;
+  border-radius: 6px;
+  padding: 12px 14px;
+  color: var(--text-color);
+}
+
 .view-settings {
   display: flex;
   flex-direction: column;
