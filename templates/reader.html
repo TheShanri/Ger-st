@@ -88,6 +88,18 @@
         </div>
       </section>
     </template>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const wordInfoSection = document.querySelector('.sidebar-section.word-info');
+        if (wordInfoSection && !wordInfoSection.querySelector('#sb-reason-box')) {
+          const reasonBox = document.createElement('div');
+          reasonBox.id = 'sb-reason-box';
+          reasonBox.className = 'sb-reason';
+          reasonBox.hidden = true;
+          wordInfoSection.appendChild(reasonBox);
+        }
+      });
+    </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>

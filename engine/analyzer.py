@@ -35,6 +35,28 @@ class GermanAnalyzer:
         self.cache_file = cache_file
         self.vocab_cache = self._load_cache()
 
+    def _explain_adjective(self, token):
+        head_noun = token.head
+
+        weak_articles = {"der", "die", "das", "dies", "jen", "jed", "welch", "solch", "manch", "all", "beid"}
+        mixed_articles = {"ein", "kein", "mein", "dein", "sein", "ihr", "unser", "euer"}
+
+        determiner = None
+        if head_noun and head_noun.pos_ == "NOUN":
+            for child in head_noun.children:
+                if child.pos_ == "DET":
+                    determiner = child
+                    break
+
+        if determiner:
+            lemma = determiner.lemma_.lower()
+            if lemma in weak_articles:
+                return "Weak Declension (Definite Article): The article carries the signal, so the adjective relaxes."
+            if lemma in mixed_articles:
+                return "Mixed Declension (Indefinite Article): The article is ambiguous, so the adjective varies."
+
+        return "Strong Declension (No Article): The adjective carries the grammatical signal."
+
     # --- CACHING SYSTEM ---
     def _load_cache(self):
         """Loads existing translations from local JSON file."""
@@ -223,18 +245,30 @@ class GermanAnalyzer:
             if token.pos_ in ["VERB", "AUX"] and raw_mood == ["Sub"]:
                 classes.append("mood-Subj")
 
+
             if token.ent_type_:
                 classes.append("ent-Name")
 
             class_str = " ".join(classes)
-            
+
             # Escape strings for HTML safety
             safe_trans = html.escape(translation)
             safe_lemma = html.escape(lemma)
             safe_grammar = html.escape(grammar_html)
-            
-            html_content += f"""<span class="{class_str}" data-lemma="{safe_lemma}" data-trans="{safe_trans}" data-grammar="{safe_grammar}" onclick="updateSidebar(this)">{token.text_with_ws}</span>"""
+            safe_reason = ""
+            if token.pos_ == "ADJ":
+                reason = self._explain_adjective(token)
+                safe_reason = html.escape(reason)
 
+
+            html_content += (
+                f'<span class="{class_str}" '
+                f'data-lemma="{safe_lemma}" '
+                f'data-trans="{safe_trans}" '
+                f'data-grammar="{safe_grammar}" '
+                f'data-reason="{safe_reason}" '
+                f'onclick="updateSidebar(this)">{token.text_with_ws}</span>'
+            )
         # --- SIDEBAR & FOOTER ---
         html_content += """
             </div>
@@ -249,6 +283,8 @@ class GermanAnalyzer:
 
                     <div class="sidebar-label">Grammar:</div>
                     <div id="sb-grammar" class="sb-grammar"></div>
+
+                    <div id="sb-reason-box" class="sb-reason" hidden></div>
                 </section>
                 <section id="view-settings-container" class="sidebar-section placeholder-section"></section>
                 <section id="theme-switcher-container" class="sidebar-section placeholder-section"></section>
