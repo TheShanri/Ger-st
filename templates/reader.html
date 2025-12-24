@@ -88,6 +88,35 @@
         </div>
       </section>
     </template>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const dudenButton = document.getElementById('btn-duden');
+        if (dudenButton) {
+          dudenButton.remove();
+        }
+
+        const grammarBox = document.getElementById('sb-grammar');
+        const hasReasonBox = document.getElementById('sb-reason-box');
+
+        if (grammarBox && !hasReasonBox) {
+          const reasonBox = document.createElement('div');
+          reasonBox.id = 'sb-reason-box';
+          reasonBox.className = 'sb-reason';
+          reasonBox.hidden = true;
+
+          const reasonLabel = document.createElement('div');
+          reasonLabel.className = 'sidebar-label';
+          reasonLabel.innerText = 'Adjective Logic:';
+
+          const reasonText = document.createElement('div');
+          reasonText.id = 'sb-reason-text';
+          reasonText.className = 'sb-reason-text';
+
+          reasonBox.append(reasonLabel, reasonText);
+          grammarBox.insertAdjacentElement('afterend', reasonBox);
+        }
+      });
+    </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   </body>
 </html>

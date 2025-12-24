@@ -241,15 +241,20 @@ function updateSidebar(element) {
   const lemmaEl = document.getElementById('sb-lemma');
   const meaningEl = document.getElementById('sb-meaning');
   const grammarEl = document.getElementById('sb-grammar');
-  const dudenBtn = document.getElementById('btn-duden');
+  const reasonBox = document.getElementById('sb-reason-box');
+  const reasonText = document.getElementById('sb-reason-text');
+  const reason = element.getAttribute('data-reason');
 
   if (wordEl) wordEl.innerText = text;
   if (lemmaEl) lemmaEl.innerText = `Base: ${lemma}`;
   if (meaningEl) meaningEl.innerText = trans;
   if (grammarEl) grammarEl.innerHTML = grammar;
 
-  if (dudenBtn) {
-    const cleanLemma = (lemma || '').replace(/[^\wäöüÄÖÜß]/g, '');
-    dudenBtn.href = `https://www.duden.de/suchen/dudenonline/${cleanLemma}`;
+  if (reason && reasonBox && reasonText) {
+    reasonBox.hidden = false;
+    reasonText.innerText = reason;
+  } else if (reasonBox && reasonText) {
+    reasonBox.hidden = true;
+    reasonText.innerText = '';
   }
 }
